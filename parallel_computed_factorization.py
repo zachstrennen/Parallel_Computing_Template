@@ -5,21 +5,29 @@ import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
 
-    # Print cpu count
-    print(mp.cpu_count())
+    # Store and print cpu count
+    cpu_count = mp.cpu_count()
+    print("Your CPU count is :", cpu_count)
 
+    # Set start method
     mp.set_start_method('spawn')
 
+    # Read in integers from data file
     integers = []
-    f = open("./integers.dat", "r")
+    f = open("data/integers.dat", "r")
     for line in f:
         integers.append(int(line.rstrip("\n")))
     f.close()
-    k_list = [1, 2, 3, 4, 5, 6, 7, 8]
+
+    # List of integers from 1 to cpu_count
+    k_list = list(range(1, cpu_count + 1))
+
+    # Lists to store factors, primes, and runtime for each cpu count
     factors = []
     primes = []
     time_list = []
-    # Find prime numbers
+
+    # Find prime numbers and factors
     for k in k_list:
         with mp.Pool(k) as pool:
             # Start timing
@@ -31,21 +39,23 @@ if __name__ == '__main__':
             # Store time
             time_list.append(time.time() - start_time)
 
-    f = open("factors.dat", "w")
+    # Write factors to data file
+    f = open("data/factors.dat", "w")
     for factor_list in factors:
         f.write(str(factor_list) + "\n")
     f.close()
 
-    f = open("primes.dat", "w")
+    # Write primes to data file
+    f = open("data/primes.dat", "w")
     for prime in primes:
         f.write(str(prime) + "\n")
     f.close()
 
-    # Calculate speedup
+    # Calculate speedup (how many times faster)
     s_list = [time_list[0] / x for x in time_list]
 
-    # Plot k against speedup
+    # Plot cpu count against speedup
     plt.plot(k_list, s_list)
-    plt.xlabel('k')
+    plt.xlabel('cpu Count')
     plt.ylabel('Speedup')
     plt.show()
