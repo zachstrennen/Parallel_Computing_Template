@@ -4,6 +4,10 @@ This repository contains a python template for parallel computing and assessing 
 
 ## `parallel_computed_factorization.py`
 
+This python file is the main file to run. It takes in a list of random integers, `integers.dat`, and ouputs each numbers' factors and each of the numbers that are prime to `factors.dat` and `primes.dat`. The program first prints the cpu count of the machine to the console. The count is then enumearted from 1 to whatever the max value is. The function to factorize and find primes is run for each potential cpu count. The runtimes are saved and then cpu count vs speedup is visualized.
+
 ## `trial_division.py`
+
+This trial_division funcion in this file is called upon in `parallel_computed_factorization.py`.
 
 ## `data`
